@@ -53,6 +53,9 @@ If t then Helm doesn't pop up a new window."
   :group 'helm-commandlinefu
   :type 'boolean)
 
+(easy-menu-add-item nil '("Tools" "Helm" "Tools") ["Search Commandlinefu.com" helm-commandlinefu-search t])
+(easy-menu-add-item nil '("Tools" "Helm" "Tools") ["Browse Commandlinefu.com" helm-commandlinefu-browse t])
+
 (defvar helm-commandlinefu--json nil)
 
 (defun helm-commandlinefu--request (url)
