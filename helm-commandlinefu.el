@@ -6,7 +6,7 @@
 ;; URL: https://github.com/xuchunyang/helm-commandlinefu
 ;; Package-Requires: ((emacs "24.1") (helm "1.7.0") (json "1.3") (let-alist "1.0.3"))
 ;; Keywords: commandlinefu.com
-;; Version: 0.1
+;; Version: 0.2
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
