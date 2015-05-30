@@ -3,7 +3,8 @@
 ;; Copyright (C) 2015  Chunyang Xu
 
 ;; Author: Chunyang Xu <xuchunyang56@gmail.com>
-;; Package-Requires: ((emacs "24.1") (json "1.3") (let-alist "1.0.3"))
+;; URL: https://github.com/xuchunyang/helm-commandlinefu
+;; Package-Requires: ((emacs "24.1") (helm "1.7.0") (json "1.3") (let-alist "1.0.3"))
 ;; Keywords: commandlinefu.com
 ;; Version: 0.1
 
