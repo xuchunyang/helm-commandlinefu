@@ -1,4 +1,4 @@
-# helm-commandlinefu.el [![MELPA](http://melpa.org/packages/quickrun-badge.svg)](http://melpa.org/#/quickrun)
+# helm-commandlinefu.el [![MELPA](http://melpa.org/packages/quickrun-badge.svg)](http://melpa.org/#/quickrun) [![MELPA Stable](http://stable.melpa.org/packages/helm-commandlinefu-badge.svg)](http://stable.melpa.org/#/helm-commandlinefu)
 
 A Helm extension to search and browse [Commandlinefu.com](http://www.commandlinefu.com/).
 
