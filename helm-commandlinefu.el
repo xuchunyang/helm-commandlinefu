@@ -6,7 +6,7 @@
 ;; URL: https://github.com/xuchunyang/helm-commandlinefu
 ;; Package-Requires: ((emacs "24.1") (helm "1.7.0") (json "1.3") (let-alist "1.0.3"))
 ;; Keywords: commandlinefu.com
-;; Version: 0.2
+;; Version: 0.3
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -34,6 +34,7 @@
 ;; - [clf - Command line tool to search snippets on Commandlinefu.com](https://github.com/ncrocfer/clf)
 
 ;;; Change Log:
+;; 0.3   - 2015/05/31 - Add helm interface for clf.
 ;; 0.2   - 2015/05/30 - Add Search.
 ;; 0.1   - 2015/05/30 - Created File.
 
@@ -42,6 +43,7 @@
 (require 'helm)
 (require 'json)
 (require 'let-alist)
+(require 'easymenu)
 
 (defgroup helm-commandlinefu nil
   "commandlinefu.com with helm interface."
@@ -171,6 +173,59 @@ If SORT-BY-DATE is non-nil, sort by date."
   (interactive)
   (helm :sources 'helm-commandlinefu--search-source
         :buffer "*helm-commandlinefu-search*"
+        :full-frame helm-commandlinefu-full-frame-p))
+
+(defun helm-commandlinefu-search-clf ()
+  "Helm interface for clf.
+see URL `https://github.com/ncrocfer/clf'."
+  (interactive)
+  (require 'helm-grep)
+  (unless (and (executable-find "clf") (executable-find "awk"))
+    (message "Both \"clf\" and \"awk\" are needed to run this command"))
+  (helm :sources
+        (helm-build-async-source "Search Commandlinefu.com using clf"
+          :candidates-process
+          (lambda ()
+            (let ((proc
+                   (start-process-shell-command
+                    "clf" helm-buffer
+                    (format "clf %s  | awk 'NF {key=$0; getline; print key \",,\" $0;}'"
+                            helm-pattern))))
+              (prog1 proc
+                (set-process-sentinel
+                 proc
+                 (lambda (_process event)
+                   (if (string= event "finished\n")
+                       (with-helm-window
+                         (setq mode-line-format
+                               '(" " mode-line-buffer-identification " "
+                                 (line-number-mode "%l") " "
+                                 (:eval (propertize
+                                         (format "[clf Process Finish- (%s results)]"
+                                                 (max (1- (count-lines
+                                                           (point-min) (point-max))) 0))
+                                         'face 'helm-grep-finish))))
+                         (force-mode-line-update))))))))
+          ;; TODO: why use this one? why not `filter-one-by-one' or
+          ;; `filtered-candidate-transformer' etc?
+          :candidate-transformer
+          (lambda (candidates)
+            (mapcar (lambda (candidate)
+                      (replace-regexp-in-string ",," "\n" candidate))
+                    candidates))
+          :coerce (lambda (candidate)
+                    (substring candidate (1+ (string-match "\n" candidate))))
+          :persistent-help "Execute command without confirm"
+          :persistent-action #'shell-command
+          :action '(("Execute command" .
+                     (lambda (candidate)
+                       (shell-command
+                        (read-shell-command "Shell Command: " candidate))))
+                    ("Save command to kill-ring" . kill-new))
+          :multiline t
+          :requires-pattern 2
+          :nohighlight t)
+        :buffer "**helm-commandlinefu-search-clf*"
         :full-frame helm-commandlinefu-full-frame-p))
 
 (provide 'helm-commandlinefu)
