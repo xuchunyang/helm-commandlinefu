@@ -175,6 +175,7 @@ If SORT-BY-DATE is non-nil, sort by date."
         :buffer "*helm-commandlinefu-search*"
         :full-frame helm-commandlinefu-full-frame-p))
 
+;;;###autoload
 (defun helm-commandlinefu-search-clf ()
   "Helm interface for clf.
 see URL `https://github.com/ncrocfer/clf'."
@@ -206,8 +207,6 @@ see URL `https://github.com/ncrocfer/clf'."
                                                            (point-min) (point-max))) 0))
                                          'face 'helm-grep-finish))))
                          (force-mode-line-update))))))))
-          ;; TODO: why use this one? why not `filter-one-by-one' or
-          ;; `filtered-candidate-transformer' etc?
           :candidate-transformer
           (lambda (candidates)
             (mapcar (lambda (candidate)
