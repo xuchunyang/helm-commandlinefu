@@ -225,7 +225,7 @@ see URL `https://github.com/ncrocfer/clf'."
           :multiline t
           :requires-pattern 2
           :nohighlight t)
-        :buffer "**helm-commandlinefu-search-clf*"
+        :buffer "*helm-commandlinefu-search-clf*"
         :full-frame helm-commandlinefu-full-frame-p))
 
 (provide 'helm-commandlinefu)
