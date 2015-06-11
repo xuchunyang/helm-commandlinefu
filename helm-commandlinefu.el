@@ -43,7 +43,6 @@
 (require 'helm)
 (require 'json)
 (require 'let-alist)
-(require 'easymenu)
 
 (defgroup helm-commandlinefu nil
   "commandlinefu.com with helm interface."
@@ -55,8 +54,9 @@ If t then Helm doesn't pop up a new window."
   :group 'helm-commandlinefu
   :type 'boolean)
 
-(easy-menu-add-item nil '("Tools" "Helm" "Tools") ["Search Commandlinefu.com" helm-commandlinefu-search t])
-(easy-menu-add-item nil '("Tools" "Helm" "Tools") ["Browse Commandlinefu.com" helm-commandlinefu-browse t])
+(and (featurep 'helm-config)
+     (easy-menu-add-item nil '("Tools" "Helm" "Tools") ["Search Commandlinefu.com" helm-commandlinefu-search t])
+     (easy-menu-add-item nil '("Tools" "Helm" "Tools") ["Browse Commandlinefu.com" helm-commandlinefu-browse t]))
 
 (defvar helm-commandlinefu--json nil)
 
